@@ -1,3 +1,5 @@
+import '@gershy/clearing';
+
 export type Mode = 'camel' | 'kebab' | 'snake' | 'kamel';
 
 export default ((str: string, src: Mode, trg: 'parts' | Mode) => {
