@@ -1,4 +1,4 @@
-import { assertEqual } from '../build/utils.test.ts';
+import { assertEqual, testRunner } from '../build/utils.test.ts';
 import phrasing, { Mode } from './main.ts';
 
 // Note we're 
@@ -22,58 +22,37 @@ type StrMode = AllStrModes[number];
   
 })();
 
-// Test cases
-(async () => {
+testRunner([
   
-  const cases = [
+  { name: 'basic test', fn: async () => {
     
-    { name: 'basic test', fn: async () => {
-      
-      assertEqual(
-        phrasing('testyMan', 'camel', 'camel'),
-        'testyMan'
-      );
-      assertEqual(
-        phrasing('testyMan', 'camel', 'kebab'),
-        'testy-man'
-      );
-      assertEqual(
-        phrasing('testyMan', 'camel', 'snake'),
-        'testy_man'
-      );
-      assertEqual(
-        phrasing('testyMan', 'camel', 'kamel'),
-        'TestyMan'
-      );
-      
-    }},
-    { name: 'fuzz', fn: async () => {
-      
-      for (const src of allStrModes)
-        for (const trg of allStrModes)
-          assertEqual(phrasing('', src, trg), '');
-      
-      for (const src of allStrModes)
-        assertEqual(phrasing('', src, 'parts'), []);
-      
-    }}
+    assertEqual(
+      phrasing('testyMan', 'camel', 'camel'),
+      'testyMan'
+    );
+    assertEqual(
+      phrasing('testyMan', 'camel', 'kebab'),
+      'testy-man'
+    );
+    assertEqual(
+      phrasing('testyMan', 'camel', 'snake'),
+      'testy_man'
+    );
+    assertEqual(
+      phrasing('testyMan', 'camel', 'kamel'),
+      'TestyMan'
+    );
     
-  ];
-  for (const { name, fn } of cases) {
+  }},
+  { name: 'fuzz', fn: async () => {
     
-    try {
-      
-      await fn();
-      
-    } catch (err: any) {
-      
-      console.log(`FAILED: "${name}"`, err[limn]());
-      process.exit(1);
-      
-    }
+    for (const src of allStrModes)
+      for (const trg of allStrModes)
+        assertEqual(phrasing('', src, trg), '');
     
-  }
+    for (const src of allStrModes)
+      assertEqual(phrasing('', src, 'parts'), []);
+    
+  }}
   
-  console.log(`Passed ${cases.length} test${cases.length === 1 ? '' : 's'}`);
-  
-})();
+]);
