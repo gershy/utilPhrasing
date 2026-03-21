@@ -11,8 +11,8 @@ type StrMode = AllStrModes[number];
   
   type Enforce<Provided, Expected extends Provided> = { provided: Provided, expected: Expected };
   
-  const arr = phrasing('abc', 'camel', 'parts');
-  const str = phrasing('abc', 'camel', allStrModes[0 as number]);
+  const arr = phrasing('camel->parts', 'abc');
+  const str = phrasing(`camel->${allStrModes[0 as number]}`, 'abc');
   
   type Tests = {
     1: Enforce<typeof arr, string[]>,
@@ -27,19 +27,19 @@ testRunner([
   { name: 'basic test', fn: async () => {
     
     assertEqual(
-      phrasing('testyMan', 'camel', 'camel'),
+      phrasing('camel->camel', 'testyMan'),
       'testyMan'
     );
     assertEqual(
-      phrasing('testyMan', 'camel', 'kebab'),
+      phrasing('camel->kebab', 'testyMan'),
       'testy-man'
     );
     assertEqual(
-      phrasing('testyMan', 'camel', 'snake'),
+      phrasing('camel->snake', 'testyMan'),
       'testy_man'
     );
     assertEqual(
-      phrasing('testyMan', 'camel', 'kamel'),
+      phrasing('camel->kamel', 'testyMan'),
       'TestyMan'
     );
     
@@ -48,10 +48,10 @@ testRunner([
     
     for (const src of allStrModes)
       for (const trg of allStrModes)
-        assertEqual(phrasing('', src, trg), '');
+        assertEqual(phrasing(`${src}->${trg}`, ''), '');
     
     for (const src of allStrModes)
-      assertEqual(phrasing('', src, 'parts'), []);
+      assertEqual(phrasing(`${src}->parts`, ''), []);
     
   }}
   
