@@ -1,5 +1,5 @@
 import { assertEqual, testRunner } from '../build/utils.test.ts';
-import phrasing, { Mode } from './main.ts';
+import phrasing, { type Mode } from './main.ts';
 
 // Note we're 
 const allStrModes = [ 'camel', 'kebab', 'snake', 'kamel' ] as const;
@@ -19,6 +19,7 @@ type StrMode = AllStrModes[number];
     2: Enforce<typeof str, string>,
     3: Enforce<StrMode, Mode>, // Note this test forces `allStrModes` in this file to include all modes from `main.ts`!
   };
+  if (0) ((v?: Tests) => void 0)();
   
 })();
 
