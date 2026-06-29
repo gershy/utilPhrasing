@@ -1,7 +1,6 @@
 import { assertEqual, testRunner } from '../build/utils.test.ts';
 import phrasing, { type Mode } from './main.ts';
 
-// Note we're 
 const allStrModes = [ 'camel', 'kebab', 'snake', 'kamel' ] as const;
 type AllStrModes = typeof allStrModes;
 type StrMode = AllStrModes[number];
@@ -42,6 +41,38 @@ testRunner([
     assertEqual(
       phrasing('camel->kamel', 'testyMan'),
       'TestyMan'
+    );
+    
+  }},
+  { name: 'parts src', fn: async () => {
+    
+    assertEqual(
+      phrasing('parts->camel', [ 'a', 'b', 'c' ]),
+      'aBC'
+    );
+    assertEqual(
+      phrasing('parts->camel', [ 'aa', 'bb', 'cc' ]),
+      'aaBbCc'
+    );
+    
+  }},
+  { name: 'parts trg', fn: async () => {
+    
+    assertEqual(
+      phrasing('camel->parts', 'aBC'),
+      [ 'a', 'b', 'c' ]
+    );
+    assertEqual(
+      phrasing('camel->parts', 'aaBbCc'),
+      [ 'aa', 'bb', 'cc' ]
+    );
+    assertEqual(
+      phrasing('kebab->parts', 'a-b-c'),
+      [ 'a', 'b', 'c' ]
+    );
+    assertEqual(
+      phrasing('snake->parts', 'aa_bb_cc'),
+      [ 'aa', 'bb', 'cc' ]
     );
     
   }},
